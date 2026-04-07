@@ -1,0 +1,616 @@
+[
+  {
+    "id": 1,
+    "slug": "eternal-bright-vitamin-c-20",
+    "name": "Eternal Bright Vitamin C Serum 20%",
+    "brand": "Eternal Bright",
+    "tagline": "India's #1 Clinical-Strength Brightening Serum",
+    "image": "/images/serums/eternal-bright.jpg",
+    "price": 899,
+    "volume_ml": 30,
+    "price_per_ml": 29.97,
+    "vitamin_c_type": "LAA",
+    "concentration_percent": 20,
+    "ph_level": 3.5,
+    "key_ingredients": ["L-Ascorbic Acid 20%", "Ferulic Acid", "Vitamin E", "Hyaluronic Acid"],
+    "skin_types": ["oily", "combination", "normal"],
+    "concerns": ["brightening", "anti-aging", "hyperpigmentation"],
+    "scores": {
+      "ingredient": 24,
+      "stability": 26,
+      "packaging": 14,
+      "ux": 19,
+      "value": 8,
+      "total": 91
+    },
+    "pros": [
+      "Highest concentration L-Ascorbic Acid available OTC in India",
+      "Ferulic acid dramatically boosts stability and efficacy",
+      "Visible results in 2–4 weeks",
+      "Suitable for Indian climate when stored properly"
+    ],
+    "cons": [
+      "Can oxidize quickly if not stored in a cool, dark place",
+      "Too strong for sensitive or first-time users",
+      "Higher price point"
+    ],
+    "dermatologist_verdict": "The gold standard for hyperpigmentation correction. Dermatologist-recommended for those who can tolerate it.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best Overall", "Best for Indian Skin", "Editor's Choice"],
+    "is_featured": true,
+    "rank": 1
+  },
+  {
+    "id": 2,
+    "slug": "minimalist-10-vitamin-c",
+    "name": "Minimalist 10% Vitamin C Serum",
+    "brand": "Minimalist",
+    "tagline": "The Perfect Entry Point to Vitamin C",
+    "image": "/images/serums/minimalist.jpg",
+    "price": 599,
+    "volume_ml": 30,
+    "price_per_ml": 19.97,
+    "vitamin_c_type": "EAA",
+    "concentration_percent": 10,
+    "ph_level": 5.5,
+    "key_ingredients": ["Ethyl Ascorbic Acid 10%", "Niacinamide 5%", "Hyaluronic Acid"],
+    "skin_types": ["sensitive", "dry", "combination", "normal"],
+    "concerns": ["brightening", "hyperpigmentation", "hydration"],
+    "scores": {
+      "ingredient": 20,
+      "stability": 28,
+      "packaging": 13,
+      "ux": 18,
+      "value": 9,
+      "total": 88
+    },
+    "pros": [
+      "Highly stable EAA — perfect for India's warm climate",
+      "Gentle enough for sensitive and first-time users",
+      "Great value for money",
+      "No irritation or purging"
+    ],
+    "cons": [
+      "Lower concentration means slower visible results",
+      "No ferulic acid synergy",
+      "Minimal anti-aging benefit"
+    ],
+    "dermatologist_verdict": "The safest starting point for Vitamin C. Ideal for sensitive skin types and beginners.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best for Beginners", "Best Stable Formula"],
+    "is_featured": true,
+    "rank": 2
+  },
+  {
+    "id": 3,
+    "slug": "derma-co-20-vitamin-c",
+    "name": "The Derma Co 20% Vitamin C Serum",
+    "brand": "The Derma Co",
+    "tagline": "Clinically Proven. Dermatologist Formulated.",
+    "image": "/images/serums/derma-co.jpg",
+    "price": 799,
+    "volume_ml": 30,
+    "price_per_ml": 26.63,
+    "vitamin_c_type": "LAA",
+    "concentration_percent": 20,
+    "ph_level": 3.2,
+    "key_ingredients": ["L-Ascorbic Acid 20%", "Ferulic Acid", "Hyaluronic Acid", "Madecassoside"],
+    "skin_types": ["oily", "combination", "normal"],
+    "concerns": ["brightening", "anti-aging", "hyperpigmentation"],
+    "scores": {
+      "ingredient": 23,
+      "stability": 25,
+      "packaging": 13,
+      "ux": 18,
+      "value": 9,
+      "total": 88
+    },
+    "pros": [
+      "Clinically tested formula with dermatologist backing",
+      "Madecassoside adds soothing properties",
+      "Fast visible results for stubborn dark spots",
+      "Good airless pump packaging"
+    ],
+    "cons": [
+      "Can cause initial purging for some users",
+      "Not suitable for sensitive skin",
+      "Requires refrigeration in summer"
+    ],
+    "dermatologist_verdict": "One of the best clinical-grade serums available at an accessible price point in India.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best for Fast Results", "Dermatologist Pick"],
+    "is_featured": true,
+    "rank": 3
+  },
+  {
+    "id": 4,
+    "slug": "plum-15-vitamin-c",
+    "name": "Plum 15% Vitamin C Serum",
+    "brand": "Plum",
+    "tagline": "Vegan. Gentle. Effective.",
+    "image": "/images/serums/plum.jpg",
+    "price": 695,
+    "volume_ml": 20,
+    "price_per_ml": 34.75,
+    "vitamin_c_type": "EAA",
+    "concentration_percent": 15,
+    "ph_level": 5.0,
+    "key_ingredients": ["Ethyl Ascorbic Acid 15%", "Vitamin E", "Sea Buckthorn Oil"],
+    "skin_types": ["normal", "dry", "combination"],
+    "concerns": ["brightening", "hydration", "anti-aging"],
+    "scores": {
+      "ingredient": 19,
+      "stability": 27,
+      "packaging": 13,
+      "ux": 17,
+      "value": 7,
+      "total": 83
+    },
+    "pros": [
+      "100% vegan and cruelty-free",
+      "Sea Buckthorn adds skin-nourishing antioxidants",
+      "Stable EAA derivative",
+      "Pleasant texture and no stickiness"
+    ],
+    "cons": [
+      "Smallest volume (20ml) for the price",
+      "Less potent than LAA-based options",
+      "Not ideal for severe hyperpigmentation"
+    ],
+    "dermatologist_verdict": "A solid daily-use brightening serum with good safety profile. Best for maintenance rather than correction.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best Vegan Formula"],
+    "is_featured": false,
+    "rank": 4
+  },
+  {
+    "id": 5,
+    "slug": "dot-key-vitamin-c",
+    "name": "Dot & Key Vitamin C + E Face Serum",
+    "brand": "Dot & Key",
+    "tagline": "Glow Up With Every Drop",
+    "image": "/images/serums/dot-key.jpg",
+    "price": 749,
+    "volume_ml": 30,
+    "price_per_ml": 24.97,
+    "vitamin_c_type": "SAP",
+    "concentration_percent": 15,
+    "ph_level": 6.0,
+    "key_ingredients": ["Sodium Ascorbyl Phosphate 15%", "Vitamin E", "Green Tea Extract", "Niacinamide"],
+    "skin_types": ["oily", "acne-prone", "combination"],
+    "concerns": ["brightening", "acne", "hyperpigmentation"],
+    "scores": {
+      "ingredient": 20,
+      "stability": 27,
+      "packaging": 14,
+      "ux": 16,
+      "value": 7,
+      "total": 84
+    },
+    "pros": [
+      "SAP is perfect for acne-prone skin",
+      "Helps reduce active acne alongside brightening",
+      "No irritation even for reactive skin",
+      "Beautiful lightweight texture"
+    ],
+    "cons": [
+      "Lower bioavailability compared to LAA",
+      "Niacinamide can conflict with Vit C at very high temps",
+      "Not the best for severe photoaging"
+    ],
+    "dermatologist_verdict": "A hero product for acne-prone Indian skin. SAP's antibacterial properties are a bonus.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best for Acne-Prone Skin"],
+    "is_featured": false,
+    "rank": 5
+  },
+  {
+    "id": 6,
+    "slug": "good-vibes-vitamin-c",
+    "name": "Good Vibes 10% Vitamin C Glow Serum",
+    "brand": "Good Vibes",
+    "tagline": "Glow Naturally, Stay Radiant",
+    "image": "/images/serums/good-vibes.jpg",
+    "price": 350,
+    "volume_ml": 10,
+    "price_per_ml": 35.00,
+    "vitamin_c_type": "AA2G",
+    "concentration_percent": 10,
+    "ph_level": 5.5,
+    "key_ingredients": ["AA2G™ 10%", "Turmeric Extract", "Aloe Vera"],
+    "skin_types": ["all"],
+    "concerns": ["brightening", "hydration"],
+    "scores": {
+      "ingredient": 16,
+      "stability": 25,
+      "packaging": 11,
+      "ux": 15,
+      "value": 6,
+      "total": 73
+    },
+    "pros": [
+      "Very affordable entry point",
+      "AA2G is highly stable",
+      "Turmeric adds traditional brightening benefit",
+      "Good for all skin types"
+    ],
+    "cons": [
+      "Very small bottle (10ml)",
+      "Limited scientific backing for the full formula",
+      "No ferulic acid synergy",
+      "Results take longer"
+    ],
+    "dermatologist_verdict": "A decent over-the-counter option for very budget-conscious buyers, but don't expect dramatic results.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": [],
+    "is_featured": false,
+    "rank": 6
+  },
+  {
+    "id": 7,
+    "slug": "mamaearth-vitamin-c",
+    "name": "Mamaearth Vitamin C Face Serum",
+    "brand": "Mamaearth",
+    "tagline": "Toxin-Free Goodness for Every Indian Skin",
+    "image": "/images/serums/mamaearth.jpg",
+    "price": 549,
+    "volume_ml": 30,
+    "price_per_ml": 18.30,
+    "vitamin_c_type": "MAP",
+    "concentration_percent": 10,
+    "ph_level": 6.5,
+    "key_ingredients": ["Magnesium Ascorbyl Phosphate 10%", "Turmeric Extract", "Hyaluronic Acid", "Niacinamide"],
+    "skin_types": ["dry", "sensitive", "combination"],
+    "concerns": ["brightening", "hydration", "hyperpigmentation"],
+    "scores": {
+      "ingredient": 17,
+      "stability": 26,
+      "packaging": 12,
+      "ux": 16,
+      "value": 9,
+      "total": 80
+    },
+    "pros": [
+      "Best budget option with decent ingredients",
+      "MAP is safe and hydrating",
+      "Free of harmful toxins and parabens",
+      "Widely available"
+    ],
+    "cons": [
+      "Lower efficacy than LAA or EAA",
+      "Turmeric can stain clothes",
+      "Not ideal for severe dark spots"
+    ],
+    "dermatologist_verdict": "A safe, affordable option for daily brightening maintenance. Not a treatment serum.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best Budget Buy"],
+    "is_featured": true,
+    "rank": 7
+  },
+  {
+    "id": 8,
+    "slug": "kama-ayurveda-vitamin-c",
+    "name": "Kama Ayurveda Vitamin C Serum",
+    "brand": "Kama Ayurveda",
+    "tagline": "Ayurvedic Science Meets Modern Skincare",
+    "image": "/images/serums/kama.jpg",
+    "price": 2395,
+    "volume_ml": 30,
+    "price_per_ml": 79.83,
+    "vitamin_c_type": "EAA",
+    "concentration_percent": 15,
+    "ph_level": 5.2,
+    "key_ingredients": ["Ethyl Ascorbic Acid 15%", "Amla Extract", "Licorice Root", "Rose Hip Oil"],
+    "skin_types": ["all", "dry", "sensitive"],
+    "concerns": ["brightening", "anti-aging", "hydration"],
+    "scores": {
+      "ingredient": 21,
+      "stability": 27,
+      "packaging": 15,
+      "ux": 18,
+      "value": 6,
+      "total": 87
+    },
+    "pros": [
+      "Combines modern Vit C with potent Ayurvedic actives",
+      "Amla (natural Vit C source) reinforces efficacy",
+      "Luxury packaging and sensory experience",
+      "Rosehip oil adds anti-aging moisturization"
+    ],
+    "cons": [
+      "Very expensive for the concentration offered",
+      "Premium price may not justify results over cheaper alternatives"
+    ],
+    "dermatologist_verdict": "A premium option with unique Ayurvedic differentiation. Choose it for the experience and sensory profile.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best Luxury Pick"],
+    "is_featured": false,
+    "rank": 8
+  },
+  {
+    "id": 9,
+    "slug": "wow-vitamin-c-serum",
+    "name": "WOW Skin Science Vitamin C Face Serum",
+    "brand": "WOW Skin Science",
+    "tagline": "Concentrated Power of Vitamin C",
+    "image": "/images/serums/wow.jpg",
+    "price": 499,
+    "volume_ml": 15,
+    "price_per_ml": 33.27,
+    "vitamin_c_type": "LAA",
+    "concentration_percent": 20,
+    "ph_level": 3.8,
+    "key_ingredients": ["L-Ascorbic Acid 20%", "Vitamin E", "Hyaluronic Acid", "Witch Hazel"],
+    "skin_types": ["oily", "normal", "combination"],
+    "concerns": ["brightening", "anti-aging", "hyperpigmentation"],
+    "scores": {
+      "ingredient": 21,
+      "stability": 22,
+      "packaging": 10,
+      "ux": 16,
+      "value": 7,
+      "total": 76
+    },
+    "pros": [
+      "High LAA concentration at a lower price",
+      "Witch Hazel tightens pores",
+      "Fast-absorbing formula"
+    ],
+    "cons": [
+      "Regular dropper packaging causes oxidation",
+      "Small bottle (15ml)",
+      "Oxidizes quickly — needs careful storage"
+    ],
+    "dermatologist_verdict": "Effective formula but packaging is a major drawback. Use quickly once opened.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": [],
+    "is_featured": false,
+    "rank": 9
+  },
+  {
+    "id": 10,
+    "slug": "skinceuticals-c-e-ferulic",
+    "name": "SkinCeuticals C E Ferulic",
+    "brand": "SkinCeuticals",
+    "tagline": "The World's Most Studied Vitamin C Serum",
+    "image": "/images/serums/skinceuticals.jpg",
+    "price": 14000,
+    "volume_ml": 30,
+    "price_per_ml": 466.67,
+    "vitamin_c_type": "LAA",
+    "concentration_percent": 15,
+    "ph_level": 2.8,
+    "key_ingredients": ["L-Ascorbic Acid 15%", "Ferulic Acid 0.5%", "Vitamin E 1%"],
+    "skin_types": ["normal", "combination", "dry"],
+    "concerns": ["anti-aging", "brightening", "hyperpigmentation"],
+    "scores": {
+      "ingredient": 25,
+      "stability": 30,
+      "packaging": 15,
+      "ux": 20,
+      "value": 3,
+      "total": 93
+    },
+    "pros": [
+      "Clinically proven with 20+ years of research",
+      "Patent-protected combination ratio of LAA + Vit E + Ferulic",
+      "Gold standard for photoaging and brightening",
+      "Best-in-class stability through patented formula"
+    ],
+    "cons": [
+      "Extremely expensive (₹14,000+)",
+      "Best purchased from international sources for authenticity",
+      "Overkill for most Indian consumers"
+    ],
+    "dermatologist_verdict": "The benchmark by which all other Vitamin C serums are measured. Worth it for those who can afford it.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best Premium Benchmark", "International Gold Standard"],
+    "is_featured": true,
+    "rank": 10
+  },
+  {
+    "id": 11,
+    "slug": "pilgrim-vitamin-c-serum",
+    "name": "Pilgrim 20% Vitamin C Serum",
+    "brand": "Pilgrim",
+    "tagline": "Science-First Korean-Inspired Formula",
+    "image": "/images/serums/pilgrim.jpg",
+    "price": 649,
+    "volume_ml": 30,
+    "price_per_ml": 21.63,
+    "vitamin_c_type": "LAA",
+    "concentration_percent": 20,
+    "ph_level": 3.4,
+    "key_ingredients": ["L-Ascorbic Acid 20%", "Niacinamide", "Peptides", "Licorice Extract"],
+    "skin_types": ["oily", "combination", "normal"],
+    "concerns": ["brightening", "anti-aging", "hyperpigmentation"],
+    "scores": {
+      "ingredient": 22,
+      "stability": 24,
+      "packaging": 13,
+      "ux": 17,
+      "value": 9,
+      "total": 85
+    },
+    "pros": [
+      "Korean-inspired formulation with peptides",
+      "Good value for 20% LAA",
+      "Niacinamide boosts overall brightening",
+      "Licorice extract adds natural depigmentation"
+    ],
+    "cons": [
+      "Niacinamide + high LAA combo can cause flushing",
+      "Basic packaging for an LAA formula",
+      "Oxidizes without airless pump"
+    ],
+    "dermatologist_verdict": "Strong performance at an accessible price. Best suited for oily to normal skin types.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best Korean-Inspired"],
+    "is_featured": false,
+    "rank": 11
+  },
+  {
+    "id": 12,
+    "slug": "re-equil-vitamin-c",
+    "name": "Re'equil Vitamin C & E Serum",
+    "brand": "Re'equil",
+    "tagline": "Dermatologically Tested, India-Ready",
+    "image": "/images/serums/reequil.jpg",
+    "price": 895,
+    "volume_ml": 30,
+    "price_per_ml": 29.83,
+    "vitamin_c_type": "EAA",
+    "concentration_percent": 15,
+    "ph_level": 5.4,
+    "key_ingredients": ["Ethyl Ascorbic Acid 15%", "Vitamin E 5%", "Niacinamide 3%", "Ectoin"],
+    "skin_types": ["sensitive", "dry", "combination", "normal"],
+    "concerns": ["brightening", "hyperpigmentation", "anti-aging"],
+    "scores": {
+      "ingredient": 21,
+      "stability": 28,
+      "packaging": 13,
+      "ux": 18,
+      "value": 8,
+      "total": 88
+    },
+    "pros": [
+      "Ectoin is a unique stress-protection ingredient",
+      "Stable EAA suitable for all skin types",
+      "Dermatologically tested formula",
+      "Good for year-round use in Indian climate"
+    ],
+    "cons": [
+      "Less well-known brand recognition",
+      "Results slower than LAA-based serums",
+      "Limited availability offline"
+    ],
+    "dermatologist_verdict": "Underrated gem. Ectoin gives it an edge for stressed and environmentally damaged skin.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Dermat Tested"],
+    "is_featured": false,
+    "rank": 12
+  },
+  {
+    "id": 13,
+    "slug": "foxtale-vitamin-c-serum",
+    "name": "Foxtale Vitamin C Brightening Serum",
+    "brand": "Foxtale",
+    "tagline": "D2C Skincare. No Shortcuts.",
+    "image": "/images/serums/foxtale.jpg",
+    "price": 699,
+    "volume_ml": 30,
+    "price_per_ml": 23.30,
+    "vitamin_c_type": "EAA",
+    "concentration_percent": 12,
+    "ph_level": 5.6,
+    "key_ingredients": ["Ethyl Ascorbic Acid 12%", "Alpha Arbutin", "Licorice", "Panthenol"],
+    "skin_types": ["normal", "dry", "sensitive", "combination"],
+    "concerns": ["brightening", "hydration", "hyperpigmentation"],
+    "scores": {
+      "ingredient": 19,
+      "stability": 27,
+      "packaging": 13,
+      "ux": 17,
+      "value": 8,
+      "total": 84
+    },
+    "pros": [
+      "Alpha Arbutin + Vitamin C is a powerful brightening duo",
+      "Gentle enough for daily use",
+      "Good D2C transparency about ingredients",
+      "Panthenol hydrates and soothes"
+    ],
+    "cons": [
+      "Moderate 12% concentration",
+      "Not ideal for severe pigmentation",
+      "Online-only availability"
+    ],
+    "dermatologist_verdict": "Smart ingredient pairing. Alpha arbutin and Vitamin C together cover multiple pigmentation pathways.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": [],
+    "is_featured": false,
+    "rank": 13
+  },
+  {
+    "id": 14,
+    "slug": "drcs-vitamin-c-serum",
+    "name": "Dr. Sheth's Vitamin C & Kojic Acid Serum",
+    "brand": "Dr. Sheth's",
+    "tagline": "Where Dermatology Meets Innovation",
+    "image": "/images/serums/drsheth.jpg",
+    "price": 895,
+    "volume_ml": 20,
+    "price_per_ml": 44.75,
+    "vitamin_c_type": "SAP",
+    "concentration_percent": 10,
+    "ph_level": 5.8,
+    "key_ingredients": ["Sodium Ascorbyl Phosphate 10%", "Kojic Acid 1%", "Niacinamide 2%", "Allantoin"],
+    "skin_types": ["acne-prone", "oily", "combination"],
+    "concerns": ["brightening", "acne", "hyperpigmentation"],
+    "scores": {
+      "ingredient": 20,
+      "stability": 26,
+      "packaging": 14,
+      "ux": 16,
+      "value": 7,
+      "total": 83
+    },
+    "pros": [
+      "Kojic Acid + SAP is an exceptional anti-dark-spot duo",
+      "Safe for acne-prone skin",
+      "Good brand transparency and clinical backing",
+      "Allantoin soothes post-acne redness"
+    ],
+    "cons": [
+      "Expensive per ml",
+      "Small bottle (20ml)",
+      "Kojic acid can cause sensitivity to sunlight"
+    ],
+    "dermatologist_verdict": "Excellent for post-acne hyperpigmentation. The Kojic + SAP combination targets melanin effectively.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best for Post-Acne Marks"],
+    "is_featured": false,
+    "rank": 14
+  },
+  {
+    "id": 15,
+    "slug": "anua-vitamin-c-serum",
+    "name": "ANUA Vitamin C 10% Niacinamide 4%",
+    "brand": "ANUA",
+    "tagline": "Korean Minimalism. Maximum Results.",
+    "image": "/images/serums/anua.jpg",
+    "price": 1299,
+    "volume_ml": 30,
+    "price_per_ml": 43.30,
+    "vitamin_c_type": "EAA",
+    "concentration_percent": 10,
+    "ph_level": 5.5,
+    "key_ingredients": ["Ethyl Ascorbic Acid 10%", "Niacinamide 4%", "Glutathione", "Panthenol"],
+    "skin_types": ["all", "sensitive", "normal", "combination"],
+    "concerns": ["brightening", "anti-aging", "hydration"],
+    "scores": {
+      "ingredient": 21,
+      "stability": 28,
+      "packaging": 14,
+      "ux": 18,
+      "value": 7,
+      "total": 88
+    },
+    "pros": [
+      "Glutathione adds a powerful skin-lightening boost",
+      "K-beauty minimalist philosophy with clean ingredients",
+      "Gentle yet effective formula",
+      "Premium aesthetic and packaging"
+    ],
+    "cons": [
+      "Pricier for the concentration",
+      "K-beauty premium pricing in India",
+      "Glutathione efficacy via topical route is debated"
+    ],
+    "dermatologist_verdict": "A well-formulated K-beauty option with a clean ingredient list. Great for glow maintenance.",
+    "buy_links": { "amazon": "#", "nykaa": "#", "flipkart": "#" },
+    "badges": ["Best K-Beauty Pick"],
+    "is_featured": false,
+    "rank": 15
+  }
+]

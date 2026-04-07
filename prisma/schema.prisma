@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── AUTH MODELS ────────────────────────────────────────────
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  password      String
+  role          String   @default("VISITOR") // MASTER_ADMIN | CONTENT_CREATOR | VISITOR
+  avatar        String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// ─── CONTENT MODELS ─────────────────────────────────────────
+model Brand {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  website   String?
+  logo      String?  // S3 URL for brand logo image
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  serums    Serum[]
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  color       String   @default("#1E5FA3")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Serum {
+  id                    Int      @id @default(autoincrement())
+  slug                  String   @unique
+  name                  String
+  tagline               String
+  brandId               String
+  brand                 Brand    @relation(fields: [brandId], references: [id])
+  image_url             String?  // S3 URL for product image (uploaded from admin)
+  price                 Int
+  volume_ml             Int
+  vitamin_c_type        String
+  concentration_percent Float
+  ph_level              Float
+  rank                  Int      @default(0)
+  is_featured           Boolean  @default(false)
+  dermatologist_verdict String
+  scores                String
+  badges                String
+  concerns              String
+  skin_types            String
+  pros                  String
+  cons                  String
+  key_ingredients       String
+  buy_links             String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model Ingredient {
+  id               Int      @id @default(autoincrement())
+  slug             String   @unique
+  name             String
+  alias            String
+  type             String
+  description      String
+  stability_rating Int
+  irritation_risk  String
+  bioavailability  Int
+  ph_required      String
+  best_for         String
+  avoid_if         String
+  synergies        String
+  conflicts        String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}

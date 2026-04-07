@@ -1,26 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────
+   PHARMA LIGHT THEME — CSS Custom Properties
+────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #F7F9FC;
+  --bg-white: #FFFFFF;
+  --bg-subtle: #EEF2F8;
+  --bg-muted: #E4EAF3;
+
+  --blue-50: #EFF5FF;
+  --blue-100: #DBEAFE;
+  --blue-600: #1E5FA3;
+  --blue-700: #164D8A;
+
+  --orange-500: #E07C1C;
+  --orange-600: #C96A10;
+
+  --text-primary: #0C1E30;
+  --text-secondary: #3A5068;
+  --text-muted: #7A93AD;
+
+  --border: #D6E0ED;
+  --border-strong: #B0C4D8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ──────────────────────────────────────────────
+   UTILITIES — defined in @layer so Tailwind
+   v4 cascade respects them
+────────────────────────────────────────────── */
+@layer utilities {
+  /* White card — replaces dark glassmorphism */
+  .glass {
+    background-color: #ffffff;
+    border: 1px solid #D6E0ED;
+    box-shadow: 0 1px 3px rgba(12,30,48,0.05), 0 4px 12px rgba(12,30,48,0.04);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  .glass-strong {
+    background-color: #ffffff;
+    border: 1px solid #B0C4D8;
+    box-shadow: 0 4px 20px rgba(12,30,48,0.10), 0 1px 4px rgba(12,30,48,0.06);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #1E5FA3, #2B7FD4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-orange {
+    background: linear-gradient(135deg, #E07C1C, #F59432);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Card hover */
+  .card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(30,95,163,0.10), 0 2px 8px rgba(12,30,48,0.06);
+    border-color: #B0C4D8;
+  }
+
+  /* Section backgrounds */
+  .section-alt {
+    background-color: #EEF2F8;
+    border-top: 1px solid #D6E0ED;
+    border-bottom: 1px solid #D6E0ED;
+  }
+
+  .section-blue {
+    background: linear-gradient(135deg, #EFF5FF 0%, #F0F7FF 100%);
+    border-top: 1px solid #DBEAFE;
+    border-bottom: 1px solid #DBEAFE;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ──────────────────────────────────────────────
+   BADGE variants — Vitamin C type indicators
+────────────────────────────────────────────── */
+.badge-laa  { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; border-radius: 9999px; }
+.badge-eaa  { background: #ECFDF5; color: #065F46; border: 1px solid #6EE7B7; border-radius: 9999px; }
+.badge-sap  { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; border-radius: 9999px; }
+.badge-map  { background: #F5F3FF; color: #4C1D95; border: 1px solid #DDD6FE; border-radius: 9999px; }
+.badge-aa2g { background: #FFF7EE; color: #9A3412; border: 1px solid #FDBA74; border-radius: 9999px; }
+
+/* ──────────────────────────────────────────────
+   ANIMATIONS
+────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
 }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float      { animation: float 4s ease-in-out infinite; }
+.animate-fade-in-up { animation: fadeInUp 0.5s ease forwards; }
+
+/* ──────────────────────────────────────────────
+   SCROLLBAR
+────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #EEF2F8; }
+::-webkit-scrollbar-thumb { background: #B0C4D8; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #1E5FA3; }
