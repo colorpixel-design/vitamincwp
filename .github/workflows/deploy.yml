@@ -1,0 +1,137 @@
+name: Deploy to AWS EC2
+
+# Trigger: every push to main branch
+on:
+  push:
+    branches: [main]
+
+# Only one deployment at a time
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  # ────────────────────────────────────────────────────────────
+  # JOB 1: Build on GitHub (free) — EC2 t2.micro has only 1GB RAM
+  # ────────────────────────────────────────────────────────────
+  build:
+    name: Build Next.js App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Build Next.js
+        run: npm run build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          AWS_REGION: ap-south-1
+          AWS_S3_BUCKET: bestcserum-assets
+          NEXT_PUBLIC_CDN_URL: ${{ secrets.NEXT_PUBLIC_CDN_URL }}
+
+      # Package the build — .next + node_modules + package.json
+      - name: Create deployment archive
+        run: |
+          tar -czf deploy.tar.gz \
+            .next \
+            public \
+            package.json \
+            package-lock.json \
+            prisma \
+            next.config.ts \
+            tsconfig.json
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-package
+          path: deploy.tar.gz
+          retention-days: 1
+
+  # ────────────────────────────────────────────────────────────
+  # JOB 2: Deploy to EC2
+  # ────────────────────────────────────────────────────────────
+  deploy:
+    name: Deploy to EC2
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: deploy-package
+
+      - name: Copy build to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: deploy.tar.gz
+          target: /home/ubuntu/
+
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+
+            echo "📦 Extracting build..."
+            cd /home/ubuntu
+            mkdir -p app-new
+            tar -xzf deploy.tar.gz -C app-new/
+
+            echo "📥 Installing prod dependencies..."
+            cd app-new
+            npm ci --omit=dev
+            npx prisma generate
+
+            echo "🗄️ Running database migrations..."
+            DATABASE_URL="${{ secrets.DATABASE_URL }}" npx prisma migrate deploy
+
+            echo "🔄 Swapping deployment..."
+            cd /home/ubuntu
+            rm -rf app-old
+            [ -d app ] && mv app app-old
+            mv app-new app
+
+            echo "⚙️ Writing .env..."
+            cat > /home/ubuntu/app/.env << 'EOF'
+            NODE_ENV=production
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            AWS_REGION=ap-south-1
+            AWS_S3_BUCKET=bestcserum-assets
+            NEXT_PUBLIC_CDN_URL=${{ secrets.NEXT_PUBLIC_CDN_URL }}
+            EOF
+
+            echo "🔁 Restarting app with PM2..."
+            cd /home/ubuntu/app
+            pm2 delete vitaminc 2>/dev/null || true
+            pm2 start npm --name vitaminc -- start
+            pm2 save
+
+            echo "🧹 Cleanup..."
+            rm -f /home/ubuntu/deploy.tar.gz
+
+            echo "✅ Deployment complete!"

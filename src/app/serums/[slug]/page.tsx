@@ -12,7 +12,6 @@ import {
   ThumbsUp,
   AlertCircle,
 } from "lucide-react";
-import serums from "@/data/serums.json";
 import ScoreRing from "@/components/ScoreRing";
 import IngredientBadge from "@/components/IngredientBadge";
 import SerumCard from "@/components/SerumCard";
@@ -21,13 +20,57 @@ import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  return serums.map((s) => ({ slug: s.slug }));
+type Serum = {
+  id: number;
+  slug: string;
+  name: string;
+  brand: string;
+  tagline: string;
+  vitamin_c_type: string;
+  concentration_percent: number;
+  ph_level: number;
+  price: number;
+  volume_ml: number;
+  rank: number;
+  is_featured: boolean;
+  image_url?: string;
+  badges: string[];
+  scores: { total: number; efficacy: number; stability: number; formulation: number; value: number };
+  concerns: string[];
+  skin_types: string[];
+  pros: string[];
+  cons: string[];
+  key_ingredients: string[];
+  buy_links: Record<string, string>;
+  dermatologist_verdict: string;
+};
+
+async function getSerum(slug: string): Promise<Serum | null> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/serums/${slug}`, { next: { revalidate: 60 } });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
+async function getRelatedSerums(vitCType: string, slug: string): Promise<Serum[]> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/serums?type=${vitCType}&limit=4`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    const data: Serum[] = await res.json();
+    return data.filter((s) => s.slug !== slug).slice(0, 3);
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const serum = serums.find((s) => s.slug === slug);
+  const serum = await getSerum(slug);
   if (!serum) return {};
   return {
     title: `${serum.name} Review — Score ${serum.scores.total}/100`,
@@ -36,21 +79,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const scoreCategories = [
-  { key: "ingredient", label: "Ingredient Quality", max: 25 },
+  { key: "efficacy", label: "Ingredient Efficacy", max: 25 },
   { key: "stability", label: "Stability", max: 30 },
-  { key: "packaging", label: "Packaging", max: 15 },
-  { key: "ux", label: "User Experience", max: 20 },
+  { key: "formulation", label: "Formulation", max: 15 },
   { key: "value", label: "Value for Money", max: 10 },
 ];
 
 export default async function SerumDetailPage({ params }: Props) {
   const { slug } = await params;
-  const serum = serums.find((s) => s.slug === slug);
+  const serum = await getSerum(slug);
   if (!serum) notFound();
 
-  const related = serums
-    .filter((s) => s.slug !== slug && s.vitamin_c_type === serum.vitamin_c_type)
-    .slice(0, 3);
+  const related = await getRelatedSerums(serum.vitamin_c_type, slug);
+
+  const imageUrl = serum.image_url || "/placeholder.png";
 
   return (
     <div className="pt-24 pb-20 min-h-screen">
@@ -75,7 +117,7 @@ export default async function SerumDetailPage({ params }: Props) {
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="w-full md:w-48 h-48 rounded-2xl bg-gradient-to-br from-[#EFF5FF] to-[#F4F7FB] border border-[#D6E0ED] overflow-hidden flex items-center justify-center flex-shrink-0">
                   <img
-                    src={serum.image}
+                    src={imageUrl}
                     alt={serum.name}
                     className="w-full h-full object-contain p-4"
                   />
@@ -199,32 +241,36 @@ export default async function SerumDetailPage({ params }: Props) {
             </div>
 
             {/* Key Ingredients */}
-            <div className="bg-white rounded-2xl p-6 md:p-8 border border-[#D6E0ED]">
-              <h2 className="text-xl font-black text-[#0C1E30] mb-6 flex items-center gap-2">
-                <Droplets className="w-5 h-5 text-[#1E5FA3]" />
-                Key Ingredients
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {serum.key_ingredients.map((ing) => (
-                  <span key={ing} className="px-3 py-1.5 rounded-lg bg-[#F4F7FB] border border-[#D6E0ED] text-sm text-[#3A5068] font-medium">
-                    {ing}
-                  </span>
-                ))}
+            {serum.key_ingredients.length > 0 && (
+              <div className="bg-white rounded-2xl p-6 md:p-8 border border-[#D6E0ED]">
+                <h2 className="text-xl font-black text-[#0C1E30] mb-6 flex items-center gap-2">
+                  <Droplets className="w-5 h-5 text-[#1E5FA3]" />
+                  Key Ingredients
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {serum.key_ingredients.map((ing) => (
+                    <span key={ing} className="px-3 py-1.5 rounded-lg bg-[#F4F7FB] border border-[#D6E0ED] text-sm text-[#3A5068] font-medium">
+                      {ing}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Dermatologist verdict */}
-            <div className="rounded-2xl p-6 md:p-8 bg-[#EFF5FF] border border-[#BFDBFE]">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-[#DBEAFE] flex items-center justify-center flex-shrink-0">
-                  <AlertCircle className="w-5 h-5 text-[#1E5FA3]" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-[#1E5FA3] text-sm mb-1">Dermatologist&apos;s Verdict</h3>
-                  <p className="text-[#3A5068] text-sm leading-relaxed">{serum.dermatologist_verdict}</p>
+            {serum.dermatologist_verdict && (
+              <div className="rounded-2xl p-6 md:p-8 bg-[#EFF5FF] border border-[#BFDBFE]">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#DBEAFE] flex items-center justify-center flex-shrink-0">
+                    <AlertCircle className="w-5 h-5 text-[#1E5FA3]" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[#1E5FA3] text-sm mb-1">Dermatologist&apos;s Verdict</h3>
+                    <p className="text-[#3A5068] text-sm leading-relaxed">{serum.dermatologist_verdict}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* ── RIGHT: Sidebar ── */}
@@ -239,7 +285,7 @@ export default async function SerumDetailPage({ params }: Props) {
               </div>
 
               <div className="space-y-2.5">
-                {Object.entries(serum.buy_links).map(([store, url]) => (
+                {Object.entries(serum.buy_links).filter(([, url]) => url).map(([store, url]) => (
                   <a
                     key={store}
                     href={url}
@@ -254,6 +300,9 @@ export default async function SerumDetailPage({ params }: Props) {
                     </div>
                   </a>
                 ))}
+                {Object.values(serum.buy_links).every((v) => !v) && (
+                  <p className="text-xs text-center text-[#7A93AD] py-2">Buy links coming soon</p>
+                )}
               </div>
 
               <p className="text-[10px] text-[#7A93AD] text-center mt-4">
@@ -265,26 +314,30 @@ export default async function SerumDetailPage({ params }: Props) {
             <div className="bg-white rounded-2xl p-6 border border-[#D6E0ED]">
               <h3 className="font-bold text-[#0C1E30] text-sm mb-4">Best For</h3>
               <div className="space-y-3">
-                <div>
-                  <p className="text-xs text-[#7A93AD] mb-2">Skin Types</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {serum.skin_types.map((t) => (
-                      <span key={t} className="px-2 py-0.5 rounded-md bg-[#F4F7FB] border border-[#D6E0ED] text-xs text-[#3A5068] capitalize">
-                        {t}
-                      </span>
-                    ))}
+                {serum.skin_types.length > 0 && (
+                  <div>
+                    <p className="text-xs text-[#7A93AD] mb-2">Skin Types</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {serum.skin_types.map((t) => (
+                        <span key={t} className="px-2 py-0.5 rounded-md bg-[#F4F7FB] border border-[#D6E0ED] text-xs text-[#3A5068] capitalize">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <p className="text-xs text-[#7A93AD] mb-2">Skin Concerns</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {serum.concerns.map((c) => (
-                      <span key={c} className="px-2 py-0.5 rounded-md bg-[#FFF7EE] border border-[#FDBA74] text-xs text-[#E07C1C] capitalize">
-                        {c}
-                      </span>
-                    ))}
+                )}
+                {serum.concerns.length > 0 && (
+                  <div>
+                    <p className="text-xs text-[#7A93AD] mb-2">Skin Concerns</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {serum.concerns.map((c) => (
+                        <span key={c} className="px-2 py-0.5 rounded-md bg-[#FFF7EE] border border-[#FDBA74] text-xs text-[#E07C1C] capitalize">
+                          {c}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -310,7 +363,7 @@ export default async function SerumDetailPage({ params }: Props) {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {related.map((s) => (
-                <SerumCard key={s.id} serum={s} />
+                <SerumCard key={s.id} serum={s as any} />
               ))}
             </div>
           </div>

@@ -7,6 +7,9 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"] ?? "file:./dev.db",
+    // PostgreSQL for all environments
+    // Local: docker-compose PostgreSQL
+    // Production: AWS RDS PostgreSQL
+    url: process.env["DATABASE_URL"] ?? "postgresql://vitaminc:vitaminc_local_pass@localhost:5432/vitaminc_db",
   },
 });

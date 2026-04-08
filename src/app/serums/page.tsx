@@ -4,7 +4,6 @@ import { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Search, SlidersHorizontal, X, ArrowLeftRight } from "lucide-react";
-import serums from "@/data/serums.json";
 import SerumCard from "@/components/SerumCard";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +18,30 @@ const budgets = [
   { label: "₹3,000+", min: 3000, max: Infinity },
 ];
 
-type Serum = typeof serums[0];
+type Serum = {
+  id: number;
+  slug: string;
+  name: string;
+  brand: string;
+  tagline: string;
+  vitamin_c_type: string;
+  concentration_percent: number;
+  ph_level: number;
+  price: number;
+  volume_ml: number;
+  rank: number;
+  is_featured: boolean;
+  image_url?: string;
+  badges: string[];
+  scores: { total: number; efficacy: number; stability: number; formulation: number; value: number };
+  concerns: string[];
+  skin_types: string[];
+  pros: string[];
+  cons: string[];
+  key_ingredients: string[];
+  buy_links: Record<string, string>;
+  dermatologist_verdict: string;
+};
 
 function FilterChip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
@@ -42,6 +64,8 @@ function SerumsPageInner() {
   const typeParam = searchParams.get("type")?.toUpperCase() ?? "All";
   const validType = ["LAA", "EAA", "SAP", "MAP", "AA2G"].includes(typeParam) ? typeParam : "All";
 
+  const [allSerums, setAllSerums] = useState<Serum[]>([]);
+  const [loadingSerums, setLoadingSerums] = useState(true);
   const [search, setSearch] = useState("");
   const [vitCFilter, setVitCFilter] = useState(validType);
   const [skinFilter, setSkinFilter] = useState("All");
@@ -52,13 +76,21 @@ function SerumsPageInner() {
   const [showFilters, setShowFilters] = useState(validType !== "All");
 
   useEffect(() => {
+    fetch("/api/serums")
+      .then((r) => r.json())
+      .then((data) => { setAllSerums(Array.isArray(data) ? data : []); })
+      .catch(() => setAllSerums([]))
+      .finally(() => setLoadingSerums(false));
+  }, []);
+
+  useEffect(() => {
     setVitCFilter(validType);
     if (validType !== "All") setShowFilters(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typeParam]);
 
   const filtered = useMemo(() => {
-    let result: Serum[] = [...serums];
+    let result: Serum[] = [...allSerums];
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter(
@@ -80,7 +112,7 @@ function SerumsPageInner() {
     else if (sortBy === "price-desc") result.sort((a, b) => b.price - a.price);
     else if (sortBy === "score") result.sort((a, b) => b.scores.total - a.scores.total);
     return result;
-  }, [search, vitCFilter, skinFilter, concernFilter, budgetIdx, sortBy]);
+  }, [allSerums, search, vitCFilter, skinFilter, concernFilter, budgetIdx, sortBy]);
 
   const toggleCompare = (id: number) => {
     setCompareList((prev) =>
@@ -102,7 +134,7 @@ function SerumsPageInner() {
           <p className="text-[#1E5FA3] text-sm font-semibold uppercase tracking-wider mb-2">Complete Database</p>
           <h1 className="text-3xl md:text-4xl font-black text-[#0C1E30]">Vitamin C Serum Database</h1>
           <p className="text-[#3A5068] mt-2 text-sm">
-            {serums.length} serums reviewed and scored. Filter by skin type, concern, budget, and Vitamin C form.
+            {loadingSerums ? "Loading serums…" : `${allSerums.length} serums reviewed and scored. Filter by skin type, concern, budget, and Vitamin C form.`}
           </p>
         </div>
       </div>
@@ -194,7 +226,17 @@ function SerumsPageInner() {
         </p>
 
         {/* Grid */}
-        {filtered.length === 0 ? (
+        {loadingSerums ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl border border-[#D6E0ED] p-5 animate-pulse">
+                <div className="h-40 bg-[#F4F7FB] rounded-xl mb-4" />
+                <div className="h-4 bg-[#E4EAF3] rounded w-3/4 mb-2" />
+                <div className="h-3 bg-[#E4EAF3] rounded w-1/2" />
+              </div>
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-24 bg-white rounded-2xl border border-[#D6E0ED]">
             <p className="text-5xl mb-4">🔍</p>
             <p className="text-[#0C1E30] font-semibold mb-2">No serums found</p>
@@ -209,7 +251,7 @@ function SerumsPageInner() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {filtered.map((serum) => (
-              <SerumCard key={serum.id} serum={serum} compareList={compareList} onCompareToggle={toggleCompare} />
+              <SerumCard key={serum.id} serum={serum as any} compareList={compareList} onCompareToggle={toggleCompare} />
             ))}
           </div>
         )}
