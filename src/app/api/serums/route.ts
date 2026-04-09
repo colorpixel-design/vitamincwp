@@ -6,6 +6,7 @@ import { getCurrentUser, canEditContent } from "@/lib/auth";
 function parseSerum(s: any) {
   return {
     ...s,
+    image: s.image_url || "/placeholder.png",
     scores: JSON.parse(s.scores || "{}"),
     badges: JSON.parse(s.badges || "[]"),
     concerns: JSON.parse(s.concerns || "[]"),

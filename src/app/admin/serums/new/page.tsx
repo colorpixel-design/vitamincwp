@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2, Plus, X } from "lucide-react";
+import ImageUploader from "@/components/ImageUploader";
 
 type Brand = { id: string; name: string };
 
@@ -163,18 +164,12 @@ export default function NewSerumPage() {
             <input type="checkbox" id="is_featured" checked={form.is_featured} onChange={(e) => set("is_featured", e.target.checked)} className="w-4 h-4 accent-[#1E5FA3]" />
             <label htmlFor="is_featured" className="text-sm text-[#0C1E30]">Mark as Editor's Pick / Featured</label>
           </div>
-          <Field label="Product Image URL">
-            <input
+          <Field label="Product Image">
+            <ImageUploader
               value={form.image_url}
-              onChange={(e) => set("image_url", e.target.value)}
-              className={inputCls}
-              placeholder="https://... (paste image URL from any source)"
+              onChange={(url) => set("image_url", url)}
+              folder="serums"
             />
-            {form.image_url && (
-              <div className="mt-2 w-24 h-24 rounded-xl border border-[#D6E0ED] overflow-hidden bg-[#F4F7FB]">
-                <img src={form.image_url} alt="Preview" className="w-full h-full object-contain p-2" />
-              </div>
-            )}
           </Field>
         </div>
 

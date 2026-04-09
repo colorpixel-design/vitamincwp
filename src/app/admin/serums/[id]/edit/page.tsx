@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2, Plus, X } from "lucide-react";
+import ImageUploader from "@/components/ImageUploader";
 
 type Brand = { id: string; name: string };
 
@@ -122,6 +123,13 @@ export default function EditSerumPage() {
             <input type="checkbox" id="featured" checked={form.is_featured} onChange={(e) => set("is_featured", e.target.checked)} className="w-4 h-4 accent-[#1E5FA3]" />
             <label htmlFor="featured" className="text-sm text-[#0C1E30]">Editor's Pick / Featured</label>
           </div>
+          <Field label="Product Image">
+            <ImageUploader
+              value={form.image_url || ""}
+              onChange={(url) => set("image_url", url)}
+              folder="serums"
+            />
+          </Field>
         </div>
 
         <div className="bg-white rounded-2xl border border-[#D6E0ED] p-6 space-y-4">

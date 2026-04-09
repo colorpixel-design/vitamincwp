@@ -134,4 +134,13 @@ jobs:
             echo "🧹 Cleanup..."
             rm -f /home/ubuntu/deploy.tar.gz
 
+            echo "📁 Ensure uploads directory exists..."
+            mkdir -p /home/ubuntu/vitaminc-uploads/serums
+
+            echo "🌐 Update nginx to serve uploads..."
+            if ! grep -q "vitaminc-uploads" /etc/nginx/sites-available/bestcserum.com; then
+              sudo sed -i 's|location / {|location /uploads/ {\n        alias /home/ubuntu/vitaminc-uploads/;\n        expires 30d;\n        add_header Cache-Control "public";\n    }\n\n    location / {|' /etc/nginx/sites-available/bestcserum.com
+              sudo nginx -t && sudo systemctl reload nginx
+            fi
+
             echo "✅ Deployment complete! Running on port 3002"
