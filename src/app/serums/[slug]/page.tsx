@@ -48,7 +48,7 @@ type Serum = {
 async function getSerum(slug: string): Promise<Serum | null> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/serums/${slug}`, { next: { revalidate: 60 } });
+    const res = await fetch(`${baseUrl}/api/serums/${slug}`, { cache: "no-store" });
     if (!res.ok) return null;
     return res.json();
   } catch {
@@ -59,7 +59,7 @@ async function getSerum(slug: string): Promise<Serum | null> {
 async function getRelatedSerums(vitCType: string, slug: string): Promise<Serum[]> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/serums?type=${vitCType}&limit=4`, { next: { revalidate: 60 } });
+    const res = await fetch(`${baseUrl}/api/serums?type=${vitCType}&limit=4`, { cache: "no-store" });
     if (!res.ok) return [];
     const data: Serum[] = await res.json();
     return data.filter((s) => s.slug !== slug).slice(0, 3);

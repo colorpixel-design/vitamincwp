@@ -69,7 +69,7 @@ export default function NewSerumPage() {
     slug: "", name: "", tagline: "", brandId: "",
     vitamin_c_type: "EAA", concentration_percent: 10, ph_level: 3.5,
     price: 500, volume_ml: 30, rank: 99, is_featured: false,
-    dermatologist_verdict: "",
+    dermatologist_verdict: "", image_url: "",
     scores: { total: 80, efficacy: 20, stability: 20, formulation: 20, value: 20 },
     badges: [] as string[], concerns: [] as string[], skin_types: [] as string[],
     pros: [] as string[], cons: [] as string[], key_ingredients: [] as string[],
@@ -163,6 +163,19 @@ export default function NewSerumPage() {
             <input type="checkbox" id="is_featured" checked={form.is_featured} onChange={(e) => set("is_featured", e.target.checked)} className="w-4 h-4 accent-[#1E5FA3]" />
             <label htmlFor="is_featured" className="text-sm text-[#0C1E30]">Mark as Editor's Pick / Featured</label>
           </div>
+          <Field label="Product Image URL">
+            <input
+              value={form.image_url}
+              onChange={(e) => set("image_url", e.target.value)}
+              className={inputCls}
+              placeholder="https://... (paste image URL from any source)"
+            />
+            {form.image_url && (
+              <div className="mt-2 w-24 h-24 rounded-xl border border-[#D6E0ED] overflow-hidden bg-[#F4F7FB]">
+                <img src={form.image_url} alt="Preview" className="w-full h-full object-contain p-2" />
+              </div>
+            )}
+          </Field>
         </div>
 
         {/* Specs */}
