@@ -1,11 +1,11 @@
 /**
- * Prisma Client — PostgreSQL via @prisma/adapter-pg
+ * Prisma Client — PostgreSQL
  *
- * Prisma 7 requires a driver adapter. We use the official
- * @prisma/adapter-pg which wraps the node-postgres (pg) Pool.
+ * Prisma 7 requires a driver adapter (no longer supports raw PrismaClient()).
+ * We use @prisma/adapter-pg which wraps node-postgres Pool.
  *
- * Local:      Docker PostgreSQL (docker-compose up -d)
- * Production: AWS RDS PostgreSQL (private subnet)
+ * Local dev:   Neon.tech free PostgreSQL (DATABASE_URL in .env)
+ * Production:  AWS RDS PostgreSQL (DATABASE_URL in GitHub Secrets → EC2 .env)
  */
 
 import { PrismaClient } from "@prisma/client";
@@ -21,10 +21,12 @@ function createPrismaClient(): PrismaClientType {
 
   const pool = new Pool({
     connectionString,
-    // Connection pool settings — optimal for t2.micro (1 vCPU, 1GB RAM)
-    max: 5,
+    max: 5,                      // max connections (safe for t2.micro + Neon free)
     idleTimeoutMillis: 30_000,
     connectionTimeoutMillis: 5_000,
+    ssl: connectionString.includes("neon.tech") || connectionString.includes("rds.amazonaws.com")
+      ? { rejectUnauthorized: false }  // SSL required for Neon + RDS
+      : undefined,
   });
 
   const adapter = new PrismaPg(pool);

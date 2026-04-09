@@ -26,24 +26,32 @@ export async function GET(request: NextRequest) {
   const limit = parseInt(searchParams.get("limit") || "100");
   const search = searchParams.get("search");
 
-  const where: any = {};
-  if (type) where.vitamin_c_type = type;
-  if (featured === "true") where.is_featured = true;
-  if (search) {
-    where.OR = [
-      { name: { contains: search } },
-      { tagline: { contains: search } },
-    ];
+  try {
+    const where: any = {};
+    if (type) where.vitamin_c_type = type;
+    if (featured === "true") where.is_featured = true;
+    if (search) {
+      where.OR = [
+        { name: { contains: search } },
+        { tagline: { contains: search } },
+      ];
+    }
+
+    const serums = await prisma.serum.findMany({
+      where,
+      include: { brand: true },
+      orderBy: { rank: "asc" },
+      take: limit,
+    });
+
+    return NextResponse.json(serums.map(parseSerum));
+  } catch (error: any) {
+    console.error("[GET /api/serums] Error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch serums", detail: error?.message ?? String(error) },
+      { status: 500 }
+    );
   }
-
-  const serums = await prisma.serum.findMany({
-    where,
-    include: { brand: true },
-    orderBy: { rank: "asc" },
-    take: limit,
-  });
-
-  return NextResponse.json(serums.map(parseSerum));
 }
 
 // POST /api/serums — create (content creator+)

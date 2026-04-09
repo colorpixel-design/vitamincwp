@@ -98,11 +98,11 @@ jobs:
 
             echo "📦 Extracting build..."
             cd /home/ubuntu
-            mkdir -p app-new
-            tar -xzf deploy.tar.gz -C app-new/
+            mkdir -p vitaminc-new
+            tar -xzf deploy.tar.gz -C vitaminc-new/
 
             echo "📥 Installing prod dependencies..."
-            cd app-new
+            cd vitaminc-new
             npm ci --omit=dev
             npx prisma generate
 
@@ -111,27 +111,28 @@ jobs:
 
             echo "🔄 Swapping deployment..."
             cd /home/ubuntu
-            rm -rf app-old
-            [ -d app ] && mv app app-old
-            mv app-new app
+            rm -rf vitaminc-old
+            [ -d vitaminc ] && mv vitaminc vitaminc-old
+            mv vitaminc-new vitaminc
 
             echo "⚙️ Writing .env..."
-            cat > /home/ubuntu/app/.env << 'EOF'
+            cat > /home/ubuntu/vitaminc/.env << 'ENVEOF'
             NODE_ENV=production
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             AWS_REGION=ap-south-1
             AWS_S3_BUCKET=bestcserum-assets
             NEXT_PUBLIC_CDN_URL=${{ secrets.NEXT_PUBLIC_CDN_URL }}
-            EOF
+            PORT=3001
+            ENVEOF
 
-            echo "🔁 Restarting app with PM2..."
-            cd /home/ubuntu/app
+            echo "🔁 Restarting VitaminC app on port 3001..."
+            cd /home/ubuntu/vitaminc
             pm2 delete vitaminc 2>/dev/null || true
-            pm2 start npm --name vitaminc -- start
+            PORT=3001 pm2 start npm --name vitaminc -- start
             pm2 save
 
             echo "🧹 Cleanup..."
             rm -f /home/ubuntu/deploy.tar.gz
 
-            echo "✅ Deployment complete!"
+            echo "✅ Deployment complete! Running on port 3001"
