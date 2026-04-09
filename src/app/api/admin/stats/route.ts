@@ -21,7 +21,6 @@ export async function GET() {
   const recentSerums = await prisma.serum.findMany({
     take: 5,
     orderBy: { createdAt: "desc" },
-    include: { brand: true },
     select: { id: true, name: true, brand: { select: { name: true } }, createdAt: true },
   });
 

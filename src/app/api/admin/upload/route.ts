@@ -50,9 +50,4 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Increase body size limit for file uploads (Next.js default is 4MB)
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+
