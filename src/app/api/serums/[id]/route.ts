@@ -5,6 +5,7 @@ import { getCurrentUser, canEditContent, isAdmin } from "@/lib/auth";
 function parseSerum(s: any) {
   return {
     ...s,
+    image: s.image_url || "/placeholder.png",
     scores: JSON.parse(s.scores || "{}"),
     badges: JSON.parse(s.badges || "[]"),
     concerns: JSON.parse(s.concerns || "[]"),
@@ -41,7 +42,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
   // Build update payload — stringify arrays/objects
   const data: any = {};
-  const strFields = ["slug", "name", "tagline", "vitamin_c_type", "dermatologist_verdict", "brandId"];
+  const strFields = ["slug", "name", "tagline", "vitamin_c_type", "dermatologist_verdict", "brandId", "image_url"];
   const numFields = ["price", "volume_ml", "concentration_percent", "ph_level", "rank"];
   const jsonFields = ["scores", "badges", "concerns", "skin_types", "pros", "cons", "key_ingredients", "buy_links"];
   const boolFields = ["is_featured"];

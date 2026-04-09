@@ -85,6 +85,7 @@ export async function POST(request: NextRequest) {
         rank: Number(body.rank || 99),
         is_featured: Boolean(body.is_featured),
         dermatologist_verdict: body.dermatologist_verdict,
+        image_url: body.image_url || null,
         scores: JSON.stringify(body.scores || { total: 0, efficacy: 0, stability: 0, formulation: 0, value: 0 }),
         badges: JSON.stringify(body.badges || []),
         concerns: JSON.stringify(body.concerns || []),
