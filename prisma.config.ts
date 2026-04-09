@@ -1,5 +1,4 @@
 import { defineConfig } from "prisma/config";
-import "dotenv/config";
 
 // Prisma 7: Connection URL lives here, NOT in schema.prisma
 export default defineConfig({

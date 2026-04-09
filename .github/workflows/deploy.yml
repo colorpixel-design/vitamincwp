@@ -45,7 +45,7 @@ jobs:
           AWS_S3_BUCKET: bestcserum-assets
           NEXT_PUBLIC_CDN_URL: ${{ secrets.NEXT_PUBLIC_CDN_URL }}
 
-      # Package the build — .next + node_modules + package.json
+      # Package the build — includes prisma.config.ts (required by Prisma 7!)
       - name: Create deployment archive
         run: |
           tar -czf deploy.tar.gz \
@@ -54,6 +54,7 @@ jobs:
             package.json \
             package-lock.json \
             prisma \
+            prisma.config.ts \
             next.config.ts \
             tsconfig.json
 
@@ -98,25 +99,16 @@ jobs:
 
             echo "📦 Extracting build..."
             cd /home/ubuntu
+            rm -rf vitaminc-new
             mkdir -p vitaminc-new
             tar -xzf deploy.tar.gz -C vitaminc-new/
 
             echo "📥 Installing prod dependencies..."
             cd vitaminc-new
             npm ci --omit=dev
-            npx prisma generate
 
-            echo "🗄️ Running database migrations..."
-            DATABASE_URL="${{ secrets.DATABASE_URL }}" npx prisma migrate deploy
-
-            echo "🔄 Swapping deployment..."
-            cd /home/ubuntu
-            rm -rf vitaminc-old
-            [ -d vitaminc ] && mv vitaminc vitaminc-old
-            mv vitaminc-new vitaminc
-
-            echo "⚙️ Writing .env..."
-            cat > /home/ubuntu/vitaminc/.env << 'ENVEOF'
+            echo "⚙️ Writing .env BEFORE migration..."
+            cat > /home/ubuntu/vitaminc-new/.env << ENVEOF
             NODE_ENV=production
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
@@ -125,6 +117,21 @@ jobs:
             NEXT_PUBLIC_CDN_URL=${{ secrets.NEXT_PUBLIC_CDN_URL }}
             PORT=3001
             ENVEOF
+
+            echo "🔑 Exporting DATABASE_URL for Prisma..."
+            export DATABASE_URL="${{ secrets.DATABASE_URL }}"
+
+            echo "🔧 Generating Prisma client..."
+            npx prisma generate
+
+            echo "🗄️ Running database migrations..."
+            npx prisma migrate deploy
+
+            echo "🔄 Swapping deployment..."
+            cd /home/ubuntu
+            rm -rf vitaminc-old
+            [ -d vitaminc ] && mv vitaminc vitaminc-old
+            mv vitaminc-new vitaminc
 
             echo "🔁 Restarting VitaminC app on port 3001..."
             cd /home/ubuntu/vitaminc
