@@ -18,7 +18,7 @@ interface Serum {
   volume_ml: number;
   vitamin_c_type: string;
   concentration_percent: number;
-  scores: { total: number; [key: string]: number };
+  scores: { total: number;[key: string]: number };
   badges: string[];
   concerns: string[];
   skin_types: string[];
@@ -34,11 +34,11 @@ interface SerumCardProps {
 }
 
 const concernColors: Record<string, string> = {
-  brightening:       "bg-amber-50 text-amber-700 border border-amber-200",
-  "anti-aging":      "bg-blue-50 text-blue-700 border border-blue-200",
-  acne:              "bg-emerald-50 text-emerald-700 border border-emerald-200",
+  brightening: "bg-amber-50 text-amber-700 border border-amber-200",
+  "anti-aging": "bg-blue-50 text-blue-700 border border-blue-200",
+  acne: "bg-emerald-50 text-emerald-700 border border-emerald-200",
   hyperpigmentation: "bg-violet-50 text-violet-700 border border-violet-200",
-  hydration:         "bg-cyan-50 text-cyan-700 border border-cyan-200",
+  hydration: "bg-cyan-50 text-cyan-700 border border-cyan-200",
 };
 
 export default function SerumCard({
@@ -60,7 +60,7 @@ export default function SerumCard({
           #{serum.rank}
         </div>
         <div className="w-12 h-12 rounded-xl bg-[#EFF5FF] flex items-center justify-center shrink-0 overflow-hidden">
-          <img src={serum.image} alt={serum.name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+          <img src={serum.image} alt={serum.name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-xs text-[#7A93AD] mb-0.5">{serum.brand}</p>
@@ -95,8 +95,8 @@ export default function SerumCard({
           serum.rank === 1
             ? "bg-[#1E5FA3] text-white"
             : serum.rank <= 3
-            ? "bg-[#EFF5FF] text-[#1E5FA3] border border-[#BFDBFE]"
-            : "bg-[#F4F7FB] text-[#7A93AD] border border-[#D6E0ED]"
+              ? "bg-[#EFF5FF] text-[#1E5FA3] border border-[#BFDBFE]"
+              : "bg-[#F4F7FB] text-[#7A93AD] border border-[#D6E0ED]"
         )}
       >
         {serum.rank === 1 ? <Medal className="w-4 h-4" /> : `#${serum.rank}`}
@@ -127,7 +127,7 @@ export default function SerumCard({
         <img
           src={serum.image}
           alt={serum.name}
-          className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full object-cover p-4 transition-transform duration-300 group-hover:scale-105"
           onError={(e) => {
             const el = e.target as HTMLImageElement;
             el.style.display = "none";

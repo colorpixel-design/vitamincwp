@@ -42,6 +42,9 @@ yarn-error.log*
 dev.db
 *.db
 
+# Local image uploads — served from S3 in production
+/public/uploads/
+
 # vercel
 .vercel
 

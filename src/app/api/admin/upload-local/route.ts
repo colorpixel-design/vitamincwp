@@ -10,11 +10,9 @@ import { writeFile, mkdir } from "fs/promises";
 import { join, extname } from "path";
 import { randomBytes } from "crypto";
 
-// Upload directory — outside app dir so it survives redeploys
-const UPLOAD_DIR =
-  process.env.NODE_ENV === "production"
-    ? "/home/ubuntu/vitaminc-uploads/serums"
-    : join(process.cwd(), "public", "uploads", "serums");
+// Always save to public/uploads — in production this is a symlink → /home/ubuntu/vitaminc-uploads/
+// Next.js serves public/ automatically, no nginx config needed.
+const UPLOAD_DIR = join(process.cwd(), "public", "uploads", "serums");
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 const MAX_SIZE_MB = 5;

@@ -119,7 +119,7 @@ export default async function SerumDetailPage({ params }: Props) {
                   <img
                     src={imageUrl}
                     alt={serum.name}
-                    className="w-full h-full object-contain p-4"
+                    className="w-full h-full object-cover p-4"
                   />
                 </div>
 
