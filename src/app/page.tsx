@@ -13,6 +13,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { getSerums, getIngredients } from "@/lib/wordpress";
+import type { AppSerum, AppIngredient } from "@/lib/wp-types";
 import SerumCard from "@/components/SerumCard";
 import IngredientBadge from "@/components/IngredientBadge";
 import ScoreRing from "@/components/ScoreRing";
@@ -64,10 +65,16 @@ const typeMap: Record<string, string> = {
 
 export default async function HomePage() {
   // Fetch live data from WordPress
-  const [serums, ingredients] = await Promise.all([
-    getSerums({ limit: 100 }),
-    getIngredients(),
-  ]).catch(() => [[], []] as [typeof import("@/lib/wp-types").AppSerum[], typeof import("@/lib/wp-types").AppIngredient[]]);
+  let serums: AppSerum[] = [];
+  let ingredients: AppIngredient[] = [];
+  try {
+    [serums, ingredients] = await Promise.all([
+      getSerums({ limit: 100 }),
+      getIngredients(),
+    ]);
+  } catch {
+    // Fallback to empty arrays if WP is unreachable
+  }
 
   const featuredSerums = serums.filter((s) => s.is_featured).slice(0, 3);
   const top10 = serums.slice(0, 10);
