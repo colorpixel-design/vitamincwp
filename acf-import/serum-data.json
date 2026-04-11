@@ -1,0 +1,393 @@
+[
+  {
+    "key": "group_serum_data",
+    "title": "Serum Data",
+    "fields": [
+      {
+        "key": "field_serum_tagline",
+        "label": "Tagline",
+        "name": "tagline",
+        "type": "text",
+        "required": 1,
+        "show_in_graphql": 1,
+        "graphql_field_name": "tagline"
+      },
+      {
+        "key": "field_serum_brand",
+        "label": "Brand",
+        "name": "brand",
+        "type": "post_object",
+        "post_type": ["brand"],
+        "allow_null": 1,
+        "multiple": 0,
+        "return_format": "object",
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "brand"
+      },
+      {
+        "key": "field_serum_image_url",
+        "label": "Image URL",
+        "name": "image_url",
+        "type": "text",
+        "instructions": "Full URL of the product image (e.g., from S3 or Hostinger uploads)",
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "imageUrl"
+      },
+      {
+        "key": "field_serum_price",
+        "label": "Price (₹)",
+        "name": "price",
+        "type": "number",
+        "required": 1,
+        "min": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "price"
+      },
+      {
+        "key": "field_serum_volume_ml",
+        "label": "Volume (ml)",
+        "name": "volume_ml",
+        "type": "number",
+        "required": 1,
+        "min": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "volumeMl"
+      },
+      {
+        "key": "field_serum_vitamin_c_type",
+        "label": "Vitamin C Type",
+        "name": "vitamin_c_type",
+        "type": "select",
+        "choices": {
+          "L-Ascorbic Acid": "L-Ascorbic Acid",
+          "Ascorbyl Glucoside": "Ascorbyl Glucoside",
+          "Sodium Ascorbyl Phosphate": "Sodium Ascorbyl Phosphate",
+          "Ascorbyl Tetraisopalmitate": "Ascorbyl Tetraisopalmitate",
+          "Magnesium Ascorbyl Phosphate": "Magnesium Ascorbyl Phosphate",
+          "Ethyl Ascorbic Acid": "Ethyl Ascorbic Acid"
+        },
+        "default_value": "L-Ascorbic Acid",
+        "allow_null": 0,
+        "multiple": 0,
+        "return_format": "value",
+        "required": 1,
+        "show_in_graphql": 1,
+        "graphql_field_name": "vitaminCType"
+      },
+      {
+        "key": "field_serum_concentration_percent",
+        "label": "Concentration (%)",
+        "name": "concentration_percent",
+        "type": "number",
+        "required": 0,
+        "min": 0,
+        "max": 100,
+        "step": 0.1,
+        "show_in_graphql": 1,
+        "graphql_field_name": "concentrationPercent"
+      },
+      {
+        "key": "field_serum_ph_level",
+        "label": "pH Level",
+        "name": "ph_level",
+        "type": "number",
+        "required": 0,
+        "min": 0,
+        "max": 14,
+        "step": 0.1,
+        "show_in_graphql": 1,
+        "graphql_field_name": "phLevel"
+      },
+      {
+        "key": "field_serum_rank",
+        "label": "Rank",
+        "name": "rank",
+        "type": "number",
+        "instructions": "1 = best. Lower number = higher rank.",
+        "required": 0,
+        "default_value": 99,
+        "min": 1,
+        "show_in_graphql": 1,
+        "graphql_field_name": "rank"
+      },
+      {
+        "key": "field_serum_is_featured",
+        "label": "Is Featured?",
+        "name": "is_featured",
+        "type": "true_false",
+        "default_value": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "isFeatured"
+      },
+      {
+        "key": "field_serum_dermatologist_verdict",
+        "label": "Dermatologist Verdict",
+        "name": "dermatologist_verdict",
+        "type": "textarea",
+        "rows": 4,
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "dermatologistVerdict"
+      },
+      {
+        "key": "field_serum_scores",
+        "label": "Scores",
+        "name": "scores",
+        "type": "group",
+        "layout": "table",
+        "show_in_graphql": 1,
+        "graphql_field_name": "scores",
+        "sub_fields": [
+          {
+            "key": "field_serum_scores_total",
+            "label": "Total Score",
+            "name": "total",
+            "type": "number",
+            "min": 0,
+            "max": 100,
+            "default_value": 0,
+            "show_in_graphql": 1,
+            "graphql_field_name": "total"
+          },
+          {
+            "key": "field_serum_scores_efficacy",
+            "label": "Efficacy",
+            "name": "efficacy",
+            "type": "number",
+            "min": 0,
+            "max": 25,
+            "default_value": 0,
+            "show_in_graphql": 1,
+            "graphql_field_name": "efficacy"
+          },
+          {
+            "key": "field_serum_scores_stability",
+            "label": "Stability",
+            "name": "stability",
+            "type": "number",
+            "min": 0,
+            "max": 30,
+            "default_value": 0,
+            "show_in_graphql": 1,
+            "graphql_field_name": "stability"
+          },
+          {
+            "key": "field_serum_scores_formulation",
+            "label": "Formulation",
+            "name": "formulation",
+            "type": "number",
+            "min": 0,
+            "max": 15,
+            "default_value": 0,
+            "show_in_graphql": 1,
+            "graphql_field_name": "formulation"
+          },
+          {
+            "key": "field_serum_scores_value",
+            "label": "Value for Money",
+            "name": "value",
+            "type": "number",
+            "min": 0,
+            "max": 10,
+            "default_value": 0,
+            "show_in_graphql": 1,
+            "graphql_field_name": "value"
+          }
+        ]
+      },
+      {
+        "key": "field_serum_badges",
+        "label": "Badges",
+        "name": "badges",
+        "type": "repeater",
+        "min": 0,
+        "max": 10,
+        "layout": "table",
+        "button_label": "Add Badge",
+        "show_in_graphql": 1,
+        "graphql_field_name": "badges",
+        "sub_fields": [
+          {
+            "key": "field_serum_badge_name",
+            "label": "Badge Name",
+            "name": "badge_name",
+            "type": "text",
+            "show_in_graphql": 1,
+            "graphql_field_name": "badgeName"
+          }
+        ]
+      },
+      {
+        "key": "field_serum_concerns",
+        "label": "Skin Concerns",
+        "name": "concerns",
+        "type": "repeater",
+        "min": 0,
+        "layout": "table",
+        "button_label": "Add Concern",
+        "show_in_graphql": 1,
+        "graphql_field_name": "concerns",
+        "sub_fields": [
+          {
+            "key": "field_serum_concern_item",
+            "label": "Concern",
+            "name": "concern",
+            "type": "text",
+            "show_in_graphql": 1,
+            "graphql_field_name": "concern"
+          }
+        ]
+      },
+      {
+        "key": "field_serum_skin_types",
+        "label": "Skin Types",
+        "name": "skin_types",
+        "type": "checkbox",
+        "choices": {
+          "normal": "Normal",
+          "dry": "Dry",
+          "oily": "Oily",
+          "combination": "Combination",
+          "sensitive": "Sensitive"
+        },
+        "return_format": "value",
+        "show_in_graphql": 1,
+        "graphql_field_name": "skinTypes"
+      },
+      {
+        "key": "field_serum_pros",
+        "label": "Pros",
+        "name": "pros",
+        "type": "repeater",
+        "min": 0,
+        "layout": "table",
+        "button_label": "Add Pro",
+        "show_in_graphql": 1,
+        "graphql_field_name": "pros",
+        "sub_fields": [
+          {
+            "key": "field_serum_pro_item",
+            "label": "Pro",
+            "name": "pro",
+            "type": "text",
+            "show_in_graphql": 1,
+            "graphql_field_name": "pro"
+          }
+        ]
+      },
+      {
+        "key": "field_serum_cons",
+        "label": "Cons",
+        "name": "cons",
+        "type": "repeater",
+        "min": 0,
+        "layout": "table",
+        "button_label": "Add Con",
+        "show_in_graphql": 1,
+        "graphql_field_name": "cons",
+        "sub_fields": [
+          {
+            "key": "field_serum_con_item",
+            "label": "Con",
+            "name": "con",
+            "type": "text",
+            "show_in_graphql": 1,
+            "graphql_field_name": "con"
+          }
+        ]
+      },
+      {
+        "key": "field_serum_key_ingredients",
+        "label": "Key Ingredients",
+        "name": "key_ingredients",
+        "type": "repeater",
+        "min": 0,
+        "layout": "table",
+        "button_label": "Add Ingredient",
+        "show_in_graphql": 1,
+        "graphql_field_name": "keyIngredients",
+        "sub_fields": [
+          {
+            "key": "field_serum_key_ingredient_name",
+            "label": "Ingredient Name",
+            "name": "ingredient_name",
+            "type": "text",
+            "show_in_graphql": 1,
+            "graphql_field_name": "ingredientName"
+          }
+        ]
+      },
+      {
+        "key": "field_serum_buy_links",
+        "label": "Buy Links",
+        "name": "buy_links",
+        "type": "group",
+        "layout": "table",
+        "show_in_graphql": 1,
+        "graphql_field_name": "buyLinks",
+        "sub_fields": [
+          {
+            "key": "field_serum_buy_amazon",
+            "label": "Amazon",
+            "name": "amazon",
+            "type": "url",
+            "show_in_graphql": 1,
+            "graphql_field_name": "amazon"
+          },
+          {
+            "key": "field_serum_buy_flipkart",
+            "label": "Flipkart",
+            "name": "flipkart",
+            "type": "url",
+            "show_in_graphql": 1,
+            "graphql_field_name": "flipkart"
+          },
+          {
+            "key": "field_serum_buy_nykaa",
+            "label": "Nykaa",
+            "name": "nykaa",
+            "type": "url",
+            "show_in_graphql": 1,
+            "graphql_field_name": "nykaa"
+          },
+          {
+            "key": "field_serum_buy_myntra",
+            "label": "Myntra",
+            "name": "myntra",
+            "type": "url",
+            "show_in_graphql": 1,
+            "graphql_field_name": "myntra"
+          },
+          {
+            "key": "field_serum_buy_purplle",
+            "label": "Purplle",
+            "name": "purplle",
+            "type": "url",
+            "show_in_graphql": 1,
+            "graphql_field_name": "purplle"
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "post_type",
+          "operator": "==",
+          "value": "serum"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "show_in_graphql": 1,
+    "graphql_field_name": "serumData",
+    "description": "All ACF fields for Vitamin C Serum product data"
+  }
+]

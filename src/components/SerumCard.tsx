@@ -13,7 +13,8 @@ interface Serum {
   name: string;
   brand: string;
   tagline: string;
-  image: string;
+  image?: string;       // legacy field name
+  image_url?: string;   // API field name
   price: number;
   volume_ml: number;
   vitamin_c_type: string;
@@ -48,7 +49,9 @@ export default function SerumCard({
   variant = "default",
 }: SerumCardProps) {
   const isInCompare = compareList.includes(serum.id);
-  const scoreLabel = getScoreLabel(serum.scores.total);
+  const scoreLabel = getScoreLabel(serum.scores?.total ?? 0);
+  // Support both 'image' and 'image_url' field names
+  const imageUrl = serum.image || serum.image_url || "";
 
   if (variant === "compact") {
     return (
@@ -60,7 +63,7 @@ export default function SerumCard({
           #{serum.rank}
         </div>
         <div className="w-12 h-12 rounded-xl bg-[#EFF5FF] flex items-center justify-center shrink-0 overflow-hidden">
-          <img src={serum.image} alt={serum.name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <img src={imageUrl} alt={serum.name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-xs text-[#7A93AD] mb-0.5">{serum.brand}</p>
@@ -124,16 +127,20 @@ export default function SerumCard({
         "relative h-44 bg-gradient-to-br from-[#EFF5FF] to-[#F4F7FB] flex items-center justify-center overflow-hidden",
         variant === "featured" && "mt-8"
       )}>
-        <img
-          src={serum.image}
-          alt={serum.name}
-          className="w-full h-full object-cover p-4 transition-transform duration-300 group-hover:scale-105"
-          onError={(e) => {
-            const el = e.target as HTMLImageElement;
-            el.style.display = "none";
-            el.parentElement!.innerHTML += '<div class="text-7xl">🧪</div>';
-          }}
-        />
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={serum.name}
+            className="w-full h-full object-cover p-4 transition-transform duration-300 group-hover:scale-105"
+            onError={(e) => {
+              const el = e.target as HTMLImageElement;
+              el.style.display = "none";
+              el.parentElement!.innerHTML += '<div class="text-7xl">🧪</div>';
+            }}
+          />
+        ) : (
+          <div className="text-7xl">🧪</div>
+        )}
         {/* Subtle bottom fade */}
         <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent pointer-events-none" />
       </div>

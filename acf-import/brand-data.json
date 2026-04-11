@@ -1,0 +1,47 @@
+[
+  {
+    "key": "group_brand_data",
+    "title": "Brand Data",
+    "fields": [
+      {
+        "key": "field_brand_website",
+        "label": "Website URL",
+        "name": "website",
+        "type": "url",
+        "instructions": "e.g., https://minimalist.com",
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "website"
+      },
+      {
+        "key": "field_brand_logo",
+        "label": "Brand Logo",
+        "name": "logo",
+        "type": "image",
+        "return_format": "array",
+        "preview_size": "thumbnail",
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "logo"
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "post_type",
+          "operator": "==",
+          "value": "brand"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "show_in_graphql": 1,
+    "graphql_field_name": "brandData",
+    "description": "ACF fields for Brand information"
+  }
+]

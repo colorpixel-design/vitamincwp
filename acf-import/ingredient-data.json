@@ -1,0 +1,203 @@
+[
+  {
+    "key": "group_ingredient_data",
+    "title": "Ingredient Data",
+    "fields": [
+      {
+        "key": "field_ingredient_alias",
+        "label": "Alias / Also Known As",
+        "name": "alias",
+        "type": "text",
+        "instructions": "e.g., Vitamin C, AA, L-AA",
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "alias"
+      },
+      {
+        "key": "field_ingredient_type",
+        "label": "Type",
+        "name": "type",
+        "type": "select",
+        "choices": {
+          "Antioxidant": "Antioxidant",
+          "Brightening": "Brightening",
+          "Humectant": "Humectant",
+          "Emollient": "Emollient",
+          "Preservative": "Preservative",
+          "pH Adjuster": "pH Adjuster",
+          "Stabilizer": "Stabilizer",
+          "Penetration Enhancer": "Penetration Enhancer",
+          "Other": "Other"
+        },
+        "allow_null": 1,
+        "return_format": "value",
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "type"
+      },
+      {
+        "key": "field_ingredient_description",
+        "label": "Description",
+        "name": "description",
+        "type": "textarea",
+        "rows": 5,
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "description"
+      },
+      {
+        "key": "field_ingredient_stability_rating",
+        "label": "Stability Rating (1–10)",
+        "name": "stability_rating",
+        "type": "number",
+        "min": 1,
+        "max": 10,
+        "default_value": 5,
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "stabilityRating"
+      },
+      {
+        "key": "field_ingredient_irritation_risk",
+        "label": "Irritation Risk",
+        "name": "irritation_risk",
+        "type": "select",
+        "choices": {
+          "Low": "Low",
+          "Medium": "Medium",
+          "High": "High"
+        },
+        "default_value": "Low",
+        "allow_null": 0,
+        "return_format": "value",
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "irritationRisk"
+      },
+      {
+        "key": "field_ingredient_bioavailability",
+        "label": "Bioavailability (1–10)",
+        "name": "bioavailability",
+        "type": "number",
+        "min": 1,
+        "max": 10,
+        "default_value": 5,
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "bioavailability"
+      },
+      {
+        "key": "field_ingredient_ph_required",
+        "label": "pH Required",
+        "name": "ph_required",
+        "type": "text",
+        "instructions": "e.g., 2.5–3.5, Any, <6",
+        "required": 0,
+        "show_in_graphql": 1,
+        "graphql_field_name": "phRequired"
+      },
+      {
+        "key": "field_ingredient_best_for",
+        "label": "Best For",
+        "name": "best_for",
+        "type": "repeater",
+        "min": 0,
+        "layout": "table",
+        "button_label": "Add Benefit",
+        "show_in_graphql": 1,
+        "graphql_field_name": "bestFor",
+        "sub_fields": [
+          {
+            "key": "field_ingredient_best_for_item",
+            "label": "Benefit",
+            "name": "item",
+            "type": "text",
+            "show_in_graphql": 1,
+            "graphql_field_name": "item"
+          }
+        ]
+      },
+      {
+        "key": "field_ingredient_avoid_if",
+        "label": "Avoid If",
+        "name": "avoid_if",
+        "type": "repeater",
+        "min": 0,
+        "layout": "table",
+        "button_label": "Add Caution",
+        "show_in_graphql": 1,
+        "graphql_field_name": "avoidIf",
+        "sub_fields": [
+          {
+            "key": "field_ingredient_avoid_if_item",
+            "label": "Caution",
+            "name": "item",
+            "type": "text",
+            "show_in_graphql": 1,
+            "graphql_field_name": "item"
+          }
+        ]
+      },
+      {
+        "key": "field_ingredient_synergies",
+        "label": "Synergies (Works Well With)",
+        "name": "synergies",
+        "type": "repeater",
+        "min": 0,
+        "layout": "table",
+        "button_label": "Add Synergy",
+        "show_in_graphql": 1,
+        "graphql_field_name": "synergies",
+        "sub_fields": [
+          {
+            "key": "field_ingredient_synergy_item",
+            "label": "Ingredient",
+            "name": "item",
+            "type": "text",
+            "show_in_graphql": 1,
+            "graphql_field_name": "item"
+          }
+        ]
+      },
+      {
+        "key": "field_ingredient_conflicts",
+        "label": "Conflicts (Avoid Mixing With)",
+        "name": "conflicts",
+        "type": "repeater",
+        "min": 0,
+        "layout": "table",
+        "button_label": "Add Conflict",
+        "show_in_graphql": 1,
+        "graphql_field_name": "conflicts",
+        "sub_fields": [
+          {
+            "key": "field_ingredient_conflict_item",
+            "label": "Ingredient",
+            "name": "item",
+            "type": "text",
+            "show_in_graphql": 1,
+            "graphql_field_name": "item"
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "post_type",
+          "operator": "==",
+          "value": "ingredient"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "active": true,
+    "show_in_graphql": 1,
+    "graphql_field_name": "ingredientData",
+    "description": "All ACF fields for Vitamin C ingredient science data"
+  }
+]

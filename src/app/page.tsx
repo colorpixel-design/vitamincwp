@@ -12,8 +12,7 @@ import {
   Zap,
   ChevronRight,
 } from "lucide-react";
-import serums from "@/data/serums.json";
-import ingredients from "@/data/ingredients.json";
+import { getSerums, getIngredients } from "@/lib/wordpress";
 import SerumCard from "@/components/SerumCard";
 import IngredientBadge from "@/components/IngredientBadge";
 import ScoreRing from "@/components/ScoreRing";
@@ -24,9 +23,6 @@ export const metadata: Metadata = {
   description:
     "Science-backed Vitamin C serum rankings, side-by-side comparisons, and ingredient science guides — built for Indian skin.",
 };
-
-const featuredSerums = serums.filter((s) => s.is_featured).slice(0, 3);
-const top10 = serums.slice(0, 10);
 
 const stats = [
   { label: "Serums Reviewed", value: "100+", icon: Star },
@@ -66,7 +62,16 @@ const typeMap: Record<string, string> = {
   "ascorbyl-glucoside": "AA2G",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Fetch live data from WordPress
+  const [serums, ingredients] = await Promise.all([
+    getSerums({ limit: 100 }),
+    getIngredients(),
+  ]).catch(() => [[], []] as [typeof import("@/lib/wp-types").AppSerum[], typeof import("@/lib/wp-types").AppIngredient[]]);
+
+  const featuredSerums = serums.filter((s) => s.is_featured).slice(0, 3);
+  const top10 = serums.slice(0, 10);
+
   return (
     <div className="pt-[69px]">
 
@@ -205,9 +210,11 @@ export default function HomePage() {
                   #{serum.rank}
                 </div>
 
-                {/* Icon */}
-                <div className="w-11 h-11 rounded-xl bg-[#EFF5FF] flex items-center justify-center shrink-0 text-xl">
-                  🧪
+                {/* Icon / Thumbnail */}
+                <div className="w-11 h-11 rounded-xl bg-[#EFF5FF] flex items-center justify-center shrink-0 overflow-hidden text-xl">
+                  {serum.image_url && serum.image_url !== "/placeholder.png" ? (
+                    <img src={serum.image_url} alt={serum.name} className="w-full h-full object-cover" />
+                  ) : "🧪"}
                 </div>
 
                 {/* Info */}

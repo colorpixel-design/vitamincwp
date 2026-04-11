@@ -1,36 +1,82 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { X, Plus, ArrowRight, Check } from "lucide-react";
-import serums from "@/data/serums.json";
 import ScoreRing from "@/components/ScoreRing";
 import IngredientBadge from "@/components/IngredientBadge";
 import { formatPrice, getScoreColor } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
-type Serum = typeof serums[0];
+type Serum = {
+  id: number;
+  slug: string;
+  name: string;
+  brand: string;
+  image_url: string;
+  price: number;
+  volume_ml: number;
+  vitamin_c_type: string;
+  concentration_percent: number;
+  ph_level: number;
+  rank: number;
+  is_featured: boolean;
+  scores: { total: number; efficacy: number; stability: number; formulation: number; value: number; [key: string]: number };
+  badges: string[];
+  concerns: string[];
+  skin_types: string[];
+};
+
+// Map new WP field names → old score keys used in scoreCategories
+function getScore(serum: Serum, key: string): number {
+  const map: Record<string, keyof Serum["scores"]> = {
+    ingredient: "efficacy",
+    stability: "stability",
+    packaging: "formulation",
+    ux: "value",
+    value: "value",
+  };
+  return serum.scores[map[key] ?? key] ?? 0;
+}
 
 const scoreCategories = [
   { key: "ingredient", label: "Ingredient Quality", max: 25, icon: "🧪" },
-  { key: "stability", label: "Stability", max: 30, icon: "🌡️" },
-  { key: "packaging", label: "Packaging", max: 15, icon: "📦" },
-  { key: "ux", label: "User Experience", max: 20, icon: "✨" },
-  { key: "value", label: "Value for Money", max: 10, icon: "💰" },
+  { key: "stability",  label: "Stability",          max: 30, icon: "🌡️" },
+  { key: "packaging",  label: "Packaging",           max: 15, icon: "📦" },
+  { key: "ux",         label: "User Experience",     max: 20, icon: "✨" },
+  { key: "value",      label: "Value for Money",     max: 10, icon: "💰" },
 ];
 
 function ComparePageInner() {
   const searchParams = useSearchParams();
   const initialIds = searchParams.get("ids")?.split(",").map(Number).filter(Boolean) ?? [];
 
-  const [selected, setSelected] = useState<Serum[]>(() =>
-    initialIds
-      .map((id) => serums.find((s) => s.id === id))
-      .filter(Boolean) as Serum[]
-  );
+  const [allSerums, setAllSerums] = useState<Serum[]>([]);
+  const [selected, setSelected] = useState<Serum[]>([]);
   const [search, setSearch] = useState("");
   const [showPicker, setShowPicker] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch serums from WordPress via API
+  useEffect(() => {
+    fetch("/api/serums")
+      .then((r) => r.json())
+      .then((data: Serum[]) => {
+        setAllSerums(data);
+        // Pre-select serums from URL ids
+        if (initialIds.length > 0) {
+          setSelected(
+            initialIds
+              .map((id) => data.find((s) => s.id === id))
+              .filter(Boolean) as Serum[]
+          );
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const addSerum = (s: Serum) => {
     if (!selected.find((x) => x.id === s.id) && selected.length < 5) {
@@ -45,7 +91,7 @@ function ComparePageInner() {
   };
 
   const filtered = search
-    ? serums.filter(
+    ? allSerums.filter(
         (s) =>
           !selected.find((x) => x.id === s.id) &&
           (s.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -55,8 +101,16 @@ function ComparePageInner() {
 
   const getBest = (key: string): number | null => {
     if (selected.length < 2) return null;
-    return Math.max(...selected.map((s) => s.scores[key as keyof typeof s.scores] as number));
+    return Math.max(...selected.map((s) => getScore(s, key)));
   };
+
+  if (loading) {
+    return (
+      <div className="pt-24 min-h-screen flex items-center justify-center" style={{ background: "var(--bg)" }}>
+        <div style={{ color: "var(--text-muted)" }}>Loading serums...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-24 pb-20 min-h-screen" style={{ background: "var(--bg)" }}>
@@ -92,8 +146,20 @@ function ComparePageInner() {
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
+                    {/* Product image — from WordPress featuredImage */}
                     <div className="w-20 h-20 mx-auto mb-2 rounded-xl bg-[#EFF5FF] overflow-hidden flex items-center justify-center">
-                      <img src={serum.image} alt={serum.name} className="w-full h-full object-contain p-1" onError={(e) => { (e.target as HTMLImageElement).outerHTML = '<div class="text-3xl">🧪</div>'; }} />
+                      {serum.image_url && serum.image_url !== "/placeholder.png" ? (
+                        <img
+                          src={serum.image_url}
+                          alt={serum.name}
+                          className="w-full h-full object-contain p-1"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).outerHTML = '<div class="text-3xl">🧪</div>';
+                          }}
+                        />
+                      ) : (
+                        <div className="text-3xl">🧪</div>
+                      )}
                     </div>
                     <p className="text-xs mb-0.5" style={{ color: "var(--text-muted)" }}>{serum.brand}</p>
                     <p className="text-xs font-bold leading-tight mb-2 line-clamp-2" style={{ color: "var(--text-primary)" }}>{serum.name}</p>
@@ -141,7 +207,7 @@ function ComparePageInner() {
                             <p className="text-xs p-2" style={{ color: "var(--text-muted)" }}>No results found</p>
                           )}
                           {search.length === 0 &&
-                            serums
+                            allSerums
                               .filter((s) => !selected.find((x) => x.id === s.id))
                               .slice(0, 8)
                               .map((s) => (
@@ -187,7 +253,7 @@ function ComparePageInner() {
                         <p className="text-[10px]" style={{ color: "var(--text-muted)" }}>Max: {cat.max} pts</p>
                       </div>
                       {selected.map((serum) => {
-                        const score = serum.scores[cat.key as keyof typeof serum.scores] as number;
+                        const score = getScore(serum, cat.key);
                         const isBest = best !== null && score === best && selected.length > 1;
                         return (
                           <div key={serum.id} className="w-48 shrink-0">
@@ -231,17 +297,14 @@ function ComparePageInner() {
                   {
                     label: "💊 Concentration",
                     getValue: (s: Serum) => `${s.concentration_percent}%`,
-                    compare: (a: Serum, b: Serum) => a.concentration_percent > b.concentration_percent,
                   },
                   {
                     label: "⚗️ pH Level",
-                    getValue: (s: Serum) => s.ph_level.toString(),
-                    compare: () => false,
+                    getValue: (s: Serum) => s.ph_level ? s.ph_level.toString() : "—",
                   },
                   {
                     label: "💵 Price/ml",
-                    getValue: (s: Serum) => `₹${(s.price / s.volume_ml).toFixed(0)}`,
-                    compare: (a: Serum, b: Serum) => a.price / a.volume_ml < b.price / b.volume_ml,
+                    getValue: (s: Serum) => s.price && s.volume_ml ? `₹${(s.price / s.volume_ml).toFixed(0)}` : "—",
                   },
                 ].map((row) => (
                   <div key={row.label} className="flex gap-4 items-center">
@@ -266,7 +329,7 @@ function ComparePageInner() {
                   {selected.map((serum) => (
                     <div key={serum.id} className="w-48 shrink-0">
                       <div className="glass rounded-xl p-3 flex flex-wrap gap-1">
-                        {serum.skin_types.map((t) => (
+                        {(serum.skin_types ?? []).map((t) => (
                           <span
                             key={t}
                             className="px-1.5 py-0.5 rounded text-[10px] capitalize"
