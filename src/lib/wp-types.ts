@@ -42,6 +42,7 @@ export interface WPSerumScores {
   stability: number;
   formulation: number;
   value: number;
+  [key: string]: number; // index signature for SerumCard compatibility
 }
 
 // ── Buy Links (ACF Group inside Serum) ───────────────────────────────────────
@@ -54,11 +55,18 @@ export interface WPSerumBuyLinks {
   purplle?: string;
 }
 
+// ACF Post Object field returns a connection shape in WPGraphQL
+export interface WPBrandConnection {
+  nodes?: WPBrand[];
+  // scalar fallback for direct title access
+  title?: string;
+}
+
 // ── Serum ACF fields ─────────────────────────────────────────────────────────
 
 export interface WPSerumACF {
   tagline?: string;
-  brand?: WPBrand | null;          // Post Object relationship
+  brand?: WPBrandConnection | null;  // Post Object → connection with nodes[]
   imageUrl?: string;               // Image field → sourceUrl
   price?: number;
   volumeMl?: number;
